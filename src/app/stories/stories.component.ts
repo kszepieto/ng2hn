@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { HackernewsApiService } from '../hackernews-api.service'
 
 @Component({
   selector: 'app-stories',
@@ -7,11 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class StoriesComponent implements OnInit {
   items: Number[];
-  constructor() { 
-    this.items = new Array(30).map((x, i) => i);
+  constructor(private hackernewsApiService: HackernewsApiService) {
   }
 
   ngOnInit() {
+    this.hackernewsApiService.fetchStories()
+    .subscribe(
+      stories => this.items = stories,
+      error => console.log(error));
   }
 
 }
